@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flights</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f9fafb; /* Light gray background */
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="bg-gray-800 text-white p-4">
+    <div class="flex justify-between items-center max-w-6xl mx-auto">
+      <div class="text-xl font-bold">SkyConnect</div>
+      <div class="space-x-4">
+        <a href="dashboard.html" class="hover:underline">Dashboard</a>
+        <a href="flights.html" class="hover:underline">Flights</a>
+        <a href="manage_bookings.html" class="hover:underline">Manage Bookings</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Search Card -->
+  <div class="max-w-6xl mx-auto my-8 bg-white p-6 rounded shadow-lg">
+    <h2 class="text-xl font-bold mb-4">Search Flights</h2>
+    <form id="searchForm" class="grid grid-cols-2 gap-4">
+      <input id="fromLocation" type="text" placeholder="From Location" class="border p-2 rounded">
+      <input id="toLocation" type="text" placeholder="To Destination" class="border p-2 rounded">
+      <input id="travelDate" type="date" class="border p-2 rounded">
+      <select id="tripType" class="border p-2 rounded">
+        <option>One Way</option>
+        <option>Round Trip</option>
+      </select>
+      <input id="travelerCount" type="number" placeholder="Number of Travelers" class="border p-2 rounded">
+      <select id="category" class="border p-2 rounded">
+        <option>Student</option>
+        <option>Doctor</option>
+        <option>Regular</option>
+      </select>
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded col-span-2">Search Flights</button>
+    </form>
+  </div>
+
+  <!-- Flights List -->
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-2xl font-bold mb-4">Available Flights</h2>
+    <table class="w-full border-collapse border border-gray-300">
+      <thead>
+        <tr class="bg-gray-200">
+          <th class="border p-2">Flight</th>
+          <th class="border p-2">From</th>
+          <th class="border p-2">To</th>
+          <th class="border p-2">Date</th>
+          <th class="border p-2">Price</th>
+          <th class="border p-2">Action</th>
+        </tr>
+      </thead>
+      <tbody id="flightsTable">
+        <!-- Flights will be populated here dynamically -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white p-4 text-center mt-8">
+    <p>&copy; 2025 SkyConnect. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Sample flight data
+    const flights = [
+      { flight: "Flight A123", from: "City A", to: "City B", date: "2025-03-24", price: "200" },
+      { flight: "Flight B456", from: "City C", to: "City D", date: "2025-03-25", price: "300" },
+      { flight: "Flight C789", from: "City A", to: "City B", date: "2025-03-24", price: "250" },
+    ];
+
+    // Get query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const from = urlParams.get("from");
+    const to = urlParams.get("to");
+    const date = urlParams.get("date");
+    const type = urlParams.get("type");
+    const travelers = urlParams.get("travelers");
+    const category = urlParams.get("category");
+    const source = urlParams.get("source"); // New parameter to check source of navigation (home/dashboard)
+
+    // Populate search card with query parameters
+    document.getElementById("fromLocation").value = from || "";
+    document.getElementById("toLocation").value = to || "";
+    document.getElementById("travelDate").value = date || "";
+    document.getElementById("tripType").value = type || "One Way";
+    document.getElementById("travelerCount").value = travelers || "";
+    document.getElementById("category").value = category || "Regular";
+
+    // Filter flights and populate the table
+    const flightsTable = document.getElementById("flightsTable");
+    const filteredFlights = flights.filter(flight =>
+      (!from || flight.from === from) &&
+      (!to || flight.to === to) &&
+      (!date || flight.date === date)
+    );
+
+    filteredFlights.forEach(flight => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td class="border p-2">${flight.flight}</td>
+        <td class="border p-2">${flight.from}</td>
+        <td class="border p-2">${flight.to}</td>
+        <td class="border p-2">${flight.date}</td>
+        <td class="border p-2">$${flight.price}</td>
+        <td class="border p-2">
+          <button 
+            class="bg-blue-600 text-white px-4 py-2 rounded bookBtn" 
+            data-flight="${flight.flight}" 
+            data-from="${flight.from}" 
+            data-to="${flight.to}" 
+            data-date="${flight.date}" 
+            data-price="${flight.price}">
+            Book Now
+          </button>
+        </td>
+      `;
+      flightsTable.appendChild(row);
+    });
+
+    // Handle "Book Now" button click
+    document.querySelectorAll(".bookBtn").forEach(button => {
+      button.addEventListener("click", (e) => {
+        // Retrieve flight details from the button's dataset
+        const flightDetails = {
+          flight: e.target.dataset.flight,
+          from: e.target.dataset.from,
+          to: e.target.dataset.to,
+          date: e.target.dataset.date,
+          price: e.target.dataset.price,
+        };
+
+        // Create query parameters for the booking page
+        const queryParams = new URLSearchParams(flightDetails).toString();
+
+        // Redirect to booking page with query parameters
+        window.location.href = `booking.html?${queryParams}`;
+      });
+    });
+
+    // Re-search flights based on the updated search card
+    const searchForm = document.getElementById("searchForm");
+    searchForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      // Capture search card data
+      const searchData = {
+        from: document.getElementById("fromLocation").value,
+        to: document.getElementById("toLocation").value,
+        date: document.getElementById("travelDate").value,
+        type: document.getElementById("tripType").value,
+        travelers: document.getElementById("travelerCount").value,
+        category: document.getElementById("category").value,
+        source: source // Preserve the source parameter
+      };
+
+      // Redirect to flights page with updated filters
+      const query = new URLSearchParams(searchData).toString();
+      window.location.href = `flights.html?${query}`;
+    });
+  </script>
+</body>
+</html>
