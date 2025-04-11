@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+  <!-- Navigation Bar -->
+  <header class="bg-gray-800 text-white p-4 shadow-md sticky top-0 z-10">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">SKYCONNECT Admin</h1>
+      <nav class="space-x-6">
+        <a href="admin_dashboard.html" class="hover:text-blue-300">Dashboard</a>
+        <a href="admin_manage_employees.html" class="hover:text-blue-300">Manage Employees</a>
+        <a href="admin_reports.html" class="hover:text-blue-300">Reports</a>
+        <a href="/logout" class="text-red-400 hover:text-red-600">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow">
+    <div class="max-w-6xl mx-auto bg-white rounded-xl shadow-md p-6 mt-6">
+      <h2 class="text-xl font-bold text-blue-700 mb-4">Welcome, Admin</h2>
+      <p class="text-gray-700 mb-6">Manage all airline operations from one place.</p>
+
+      <!-- Summary Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-blue-100 p-4 rounded-lg shadow-sm">
+          <img src="https://www.svgrepo.com/show/427464/business-man-employee-general.svg" alt="Employees" class="w-8 h-8 mb-2">
+          <p class="text-gray-600 text-sm">Total Employees</p>
+          <h3 class="text-xl font-semibold text-blue-700">132</h3>
+        </div>
+        <div class="bg-green-100 p-4 rounded-lg shadow-sm">
+          <img src="https://www.svgrepo.com/show/145687/international-flights.svg" alt="Flights" class="w-8 h-8 mb-2">
+          <p class="text-gray-600 text-sm">Active Flights</p>
+          <h3 class="text-xl font-semibold text-green-700">24</h3>
+        </div>
+        <div class="bg-yellow-100 p-4 rounded-lg shadow-sm">
+          <img src="https://www.svgrepo.com/show/463869/airplane.svg" alt="Airlines" class="w-8 h-8 mb-2">
+          <p class="text-gray-600 text-sm">Partner Airlines</p>
+          <h3 class="text-xl font-semibold text-yellow-700">6</h3>
+        </div>
+        <div class="bg-red-100 p-4 rounded-lg shadow-sm">
+          <img src="https://www.svgrepo.com/show/453406/reports.svg" alt="Reports" class="w-8 h-8 mb-2">
+          <p class="text-gray-600 text-sm">Pending Reports</p>
+          <h3 class="text-xl font-semibold text-red-700">3</h3>
+        </div>
+      </div>
+
+      <!-- Charts Section -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <!-- Pie Chart -->
+        <div class="bg-white rounded-lg shadow p-4">
+          <h3 class="text-lg font-semibold mb-2 text-center">Employee Roles Distribution</h3>
+          <canvas id="pieChart"></canvas>
+        </div>
+
+        <!-- Bar Chart -->
+        <div class="bg-white rounded-lg shadow p-4">
+          <h3 class="text-lg font-semibold mb-2 text-center">Monthly Flight Bookings</h3>
+          <canvas id="barChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <a href="admin_manage_employees.html" class="bg-blue-600 text-white text-center py-3 rounded-lg hover:bg-blue-700 transition shadow">
+          ➕ Add New Employee
+        </a>
+        <a href="airlines.html" class="bg-green-600 text-white text-center py-3 rounded-lg hover:bg-green-700 transition shadow">
+          🛫 View Airlines
+        </a>
+        <a href="admin_reports.html" class="bg-yellow-500 text-white text-center py-3 rounded-lg hover:bg-yellow-600 transition shadow">
+          📄 Generate Report
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white text-center py-4 mt-10">
+    &copy; 2025 SKYCONNECT. All rights reserved.
+  </footer>
+
+  <!-- Chart.js Scripts -->
+  <script>
+    // Pie Chart
+    const pieCtx = document.getElementById('pieChart').getContext('2d');
+    new Chart(pieCtx, {
+      type: 'pie',
+      data: {
+        labels: ['Pilots', 'Cabin Crew', 'Ground Staff', 'Admin'],
+        datasets: [{
+          label: 'Employees',
+          data: [25, 40, 50, 17],
+          backgroundColor: ['#3B82F6', '#10B981', '#FBBF24', '#EF4444'],
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom' }
+        }
+      }
+    });
+
+    // Bar Chart
+    const barCtx = document.getElementById('barChart').getContext('2d');
+    new Chart(barCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+          label: 'Bookings',
+          data: [120, 150, 180, 90, 220, 140],
+          backgroundColor: '#3B82F6'
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
