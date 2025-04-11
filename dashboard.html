@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Passenger Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: #f9fafb; /* Light gray background */
+      background-color: #f9fafb;
     }
   </style>
 </head>
@@ -29,16 +29,22 @@
   <!-- Main Content -->
   <div class="max-w-6xl mx-auto mt-8">
     <!-- Profile Details -->
-    <section class="bg-white p-6 rounded shadow-lg mb-8">
-      <h2 class="text-2xl font-bold mb-4">Profile Details</h2>
-      <p><strong>Name:</strong> John Doe</p>
-      <p><strong>Email:</strong> johndoe@example.com</p>
-      <p><strong>Phone:</strong> +1 234 567 890</p>
+    <section class="bg-white p-6 rounded shadow-lg mb-8 flex gap-6 items-center">
+      <img src="https://via.placeholder.com/100" alt="Profile Picture" class="rounded-full w-24 h-24 border">
+      <div>
+        <h2 class="text-2xl font-bold mb-2">Profile Details</h2>
+        <p><strong>Name:</strong> John Doe</p>
+        <p><strong>Email:</strong> johndoe@example.com</p>
+        <p><strong>Phone:</strong> +1 234 567 890</p>
+      </div>
     </section>
 
     <!-- Upcoming Flights -->
     <section class="bg-white p-6 rounded shadow-lg mb-8">
-      <h2 class="text-2xl font-bold mb-4">Upcoming Flights</h2>
+      <div class="flex items-center gap-4 mb-4">
+        <img src="https://cdn-icons-png.flaticon.com/512/1071/1071564.png" class="w-8 h-8" />
+        <h2 class="text-2xl font-bold">Upcoming Flights</h2>
+      </div>
       <table class="w-full border-collapse border border-gray-300">
         <thead>
           <tr class="bg-gray-200">
@@ -63,8 +69,11 @@
 
     <!-- Booking History -->
     <section class="bg-white p-6 rounded shadow-lg mb-8">
-      <h2 class="text-2xl font-bold mb-4">Booking History</h2>
-      <table class="w-full border-collapse border border-gray-300">
+      <div class="flex items-center gap-4 mb-4">
+        <img src="https://cdn-icons-png.flaticon.com/512/102/102649.png" class="w-8 h-8" />
+        <h2 class="text-2xl font-bold">Booking History</h2>
+      </div>
+      <table class="w-full border-collapse border border-gray-300" id="bookingHistoryTable">
         <thead>
           <tr class="bg-gray-200">
             <th class="border p-2">Flight</th>
@@ -82,8 +91,53 @@
             <td class="border p-2">City D</td>
             <td class="border p-2 text-red-600">Cancelled</td>
           </tr>
+          <tr>
+            <td class="border p-2">Flight C789</td>
+            <td class="border p-2">2025-02-28</td>
+            <td class="border p-2">City A</td>
+            <td class="border p-2">City E</td>
+            <td class="border p-2 text-green-600">Completed</td>
+          </tr>
+          <tr>
+            <td class="border p-2">Flight D123</td>
+            <td class="border p-2">2025-01-12</td>
+            <td class="border p-2">City B</td>
+            <td class="border p-2">City F</td>
+            <td class="border p-2 text-green-600">Completed</td>
+          </tr>
         </tbody>
       </table>
+    </section>
+
+    <!-- Frequent Flyer Discount -->
+    <section class="bg-white p-6 rounded shadow-lg mb-8" id="discountSection" style="display:none;">
+      <div class="flex items-center gap-4 mb-4">
+        <img src="https://cdn-icons-png.flaticon.com/512/929/929440.png" class="w-8 h-8" />
+        <h2 class="text-2xl font-bold text-green-700">Frequent Flyer Reward</h2>
+      </div>
+      <p class="text-lg text-gray-700">🎉 Congratulations! You're eligible for a <strong>15% discount</strong> on your next booking as a valued frequent flyer.</p>
+    </section>
+
+    <!-- Personalized Packages -->
+    <section class="bg-white p-6 rounded shadow-lg mb-8">
+      <h2 class="text-2xl font-bold mb-4">Personalized Packages for You</h2>
+      <div class="grid md:grid-cols-3 sm:grid-cols-2 gap-6">
+        <div class="bg-gray-100 rounded-lg shadow hover:shadow-xl transition p-4">
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" alt="Beach Paradise" class="rounded-lg h-40 w-full object-cover mb-3">
+          <h3 class="text-xl font-semibold mb-1">Beach Paradise</h3>
+          <p class="text-sm text-gray-600">Relax on sunny beaches with our exclusive tropical getaway package.</p>
+        </div>
+        <div class="bg-gray-100 rounded-lg shadow hover:shadow-xl transition p-4">
+          <img src="https://i.pinimg.com/474x/e9/17/2b/e9172bf1cecb531c770cb06ebd1b59c0.jpg" alt="Mountain Escape" class="rounded-lg h-40 w-full object-cover mb-3">
+          <h3 class="text-xl font-semibold mb-1">Mountain Escape</h3>
+          <p class="text-sm text-gray-600">Breathe in fresh air and explore serene mountain landscapes.</p>
+        </div>
+        <div class="bg-gray-100 rounded-lg shadow hover:shadow-xl transition p-4">
+          <img src="https://i.pinimg.com/474x/62/af/aa/62afaa8178383beddeb590c8d586fec7.jpg" alt="Cultural Tour" class="rounded-lg h-40 w-full object-cover mb-3">
+          <h3 class="text-xl font-semibold mb-1">Cultural Tour</h3>
+          <p class="text-sm text-gray-600">Dive into rich traditions and history with personalized cultural tours.</p>
+        </div>
+      </div>
     </section>
 
     <!-- Search Flights -->
@@ -113,12 +167,12 @@
     <p>&copy; 2025 SkyConnect. All rights reserved.</p>
   </footer>
 
+  <!-- Script -->
   <script>
+    // Search redirect
     const searchForm = document.getElementById("searchForm");
     searchForm.addEventListener("submit", (e) => {
       e.preventDefault();
-
-      // Capture search card data
       const searchData = {
         from: document.getElementById("fromLocation").value,
         to: document.getElementById("toLocation").value,
@@ -127,11 +181,16 @@
         travelers: document.getElementById("travelerCount").value,
         category: document.getElementById("category").value,
       };
-
-      // Redirect to flights page with search query
       const query = new URLSearchParams(searchData).toString();
       window.location.href = `flights.html?${query}`;
     });
+
+    // Frequent flyer discount logic
+    const bookingRows = document.querySelectorAll("#bookingHistoryTable tbody tr");
+    const discountSection = document.getElementById("discountSection");
+    if (bookingRows.length >= 3) {
+      discountSection.style.display = "block";
+    }
   </script>
 </body>
 </html>
